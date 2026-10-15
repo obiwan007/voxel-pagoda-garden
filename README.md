@@ -59,6 +59,12 @@ This project was built from the following prompt, verbatim:
 > of a pagoda in a beautiful garden with trees, include some cherry blossoms. Make the scene impressive and varied and use colorful voxels. Use whatever libraries to get this done but make sure I can paste it all into a single HTML file and open it in chrome.
 > Use playwright mcp to test the page.
 
+## Built with
+
+- **Model:** DeepSeek V4.1 Flash Free (`opencode/deepseek-v4.1-flash-free`)
+- **Effort level:** `max`
+- **Harness:** [opencode](https://opencode.ai), with the Playwright MCP used to test the page in a browser
+
 ## How it's made
 
 - Deterministic generation: a seeded `mulberry32` RNG plus value-noise/fbm terrain, so the same garden is rebuilt on every load
