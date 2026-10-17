@@ -1,73 +1,70 @@
-# 桜苑 · Sakura Court — Voxel Pagoda Garden
+# 落桜の塔 · Pagoda of Falling Blossoms
 
-A single-file, interactive **voxel-art scene** of a Japanese pagoda garden, built with [three.js](https://threejs.org/) and rendered entirely from voxels (Minecraft-style cubes).
+A voxel-art garden scene: a five-tier pagoda in a Japanese garden with cherry blossoms,
+a koi pond with waterfall, a hanami viewing deck, a zen rock garden — rendered in the browser
+with three.js, generated procedurally as ~16,900 colored voxels baked into instanced meshes.
 
-**▶ Live demo: <https://obiwan007.github.io/voxel-pagoda-garden/>**
+## Files
 
-[![Day view](assets/day.jpg)](https://obiwan007.github.io/voxel-pagoda-garden/)
-[![Night view](assets/night.jpg)](https://obiwan007.github.io/voxel-pagoda-garden/)
+| File | Purpose |
+|---|---|
+| `pagoda-garden.html` | The complete scene. Single self-contained file — open directly in Chrome. |
 
-*Click a screenshot to open the live demo.*
+No build step, no dependencies installed locally — three.js r170 is pulled from the
+jsDelivr CDN on first load (requires an internet connection for the initial open;
+the page shows a friendly message if the CDN can't be reached).
 
----
+## Original prompt
 
-## What's in the scene
+> Design and create a very creative, elaborate and detailed voxel art scene
+> of a pagoda in a beautiful garden with trees, include some cherry blossoms. Make the scene impressive and varied and use colorful voxels. Use whatever libraries to get this done but make sure I can paste it all into a single HTML file and open it in chrome. Use playwright mcp to test the page.
 
-- **Five-tier pagoda** — red lacquer tiers, dark tiled roofs, upturned gold eave tips, a full gold *sōrin* finial, and windows that light up warmly at night
-- **Cherry blossoms everywhere** — hand-placed sakura trees, a blossom-ringed pond, ~430 falling petals, petal drift on the ground
-- **Koi pond** — rippling water, five circling koi, an arched moon bridge, reeds, lily pads, a heron, and a small boat
-- **Garden architecture** — two torii gates, stone tōrō lanterns, wisteria pergolas, a hokora shrine, a raked gravel court with stepping-stone walks
-- **Vegetation** — pines, maples, a deep-green bamboo grove, shrubs, flower beds, rocks
-- **Living surroundings** — rolling hills, a distant speckle forest that fades into haze, drifting voxel clouds, circling birds
-- **Day ↔ sunset/night cycle** — dusk palette in between, fireflies, 1,050 stars, and the moon rising over the western ridge
+## Model used
 
-~**80,000 voxels**, rendered as a few InstancedMeshes at 75 fps (vsync-capped).
+| | |
+|---|---|
+| Model | GLM-5.3-Flash Free |
+| Provider | opencode |
+| Model ID | glm-5.3-flash-free |
+
+## Scene contents
+
+- **Five-tier pagoda** — vermilion pillars, cream plaster walls, gold bracket cornices,
+  slate roofs with gold eave trim, downturned corner eaves with wind bells, glowing
+  windows, lantern-lit entrance, golden spire with diamond rings
+- **Koi pond** — sandy shallows, stone lip, shoreline reeds, lily pads with lotus
+  blooms, 4 swimming koi visible through translucent water, 26 pulsing sun glints,
+  and a mossy **waterfall rockery** pouring into the east lip with a foam ring
+- **Cherry blossoms** — five sakura trees with procedurally built branches and pink
+  ellipsoid canopies; 420 falling petals spawn from the crowns and drift down,
+  collecting under the canopies — and **settling flat on the pond surface** for a
+  while before respawn (verified: ~35 afloat at any time)
+- **Garden features** — arched red bridge, torii gate, tea house with glowing doorway,
+  8 stone tōrō lanterns, pines, gradient-crowned maples, bamboo groves, bushes,
+  flower beds, rocks, gravel paths
+- **Zen rock garden** — raked gravel discs with dark groove rings, stone border,
+  mossy island with a boulder, its own tōrō
+- **Hanami viewing deck** — wood deck over the south shore with posts, rail and a lit
+  paper-lantern pole; two paper parasols (red on the deck, cream near the tea house)
+- **Festival lantern row** — two dark poles with a sagging string of 7 glowing lanterns
+  across the south walk
+- **Living background** — 6 birds flapping in wide circles, 3 butterflies over the
+  flowerbeds, drifting voxel clouds, patrolling dragonflies, gradient sky dome,
+  **sea of clouds with two hazed mountain ranges + golden sun with halo**,
+  ACES tone mapping, soft shadows
 
 ## Controls
 
-| Input | Action |
-| --- | --- |
-| Drag | Orbit the camera |
-| Scroll | Zoom |
-| Right-drag | Pan |
-| **N** / button | Sunset / night toggle |
-| **P** / button | Falling petals on/off |
-| **O** / button | Auto orbit on/off |
-| **B** / button | Bloom glow on/off |
-| Reset View | Return to the intro camera |
+- Drag to orbit · scroll to zoom · right-drag to pan
+- 🌸 toggles the falling petals, 🔄 toggles auto-rotation
+  (auto-spin stops when you grab the scene)
 
-A short camera glide introduces the scene on load; the first drag takes over the camera.
+## Testing
 
-## Running it
-
-The whole scene is one HTML file with no build step — three.js is pulled from a CDN, so an internet connection is required.
-
-- **Easiest:** open `voxel-pagoda-garden.html` in Chrome (double-click, or drag it into a tab).
-- **Local server (optional):**
-  ```sh
-  python3 -m http.server 8000
-  # then open http://localhost:8000/voxel-pagoda-garden.html
-  ```
-
-Works on GitHub Pages at the repository root (`index.html` redirects to the scene).
-
-## The initial prompt
-
-This project was built from the following prompt, verbatim:
-
-> Design and create a very creative, elaborate and detailed voxel art scene
-> of a pagoda in a beautiful garden with trees, include some cherry blossoms. Make the scene impressive and varied and use colorful voxels. Use whatever libraries to get this done but make sure I can paste it all into a single HTML file and open it in chrome.
-> Use playwright mcp to test the page.
-
-## Built with
-
-- **Model:** DeepSeek V4.1 Flash Free (`opencode/deepseek-v4.1-flash-free`)
-- **Effort level:** `max`
-- **Harness:** [opencode](https://opencode.ai), with the Playwright MCP used to test the page in a browser
-
-## How it's made
-
-- Deterministic generation: a seeded `mulberry32` RNG plus value-noise/fbm terrain, so the same garden is rebuilt on every load
-- All voxels live in maps and are merged into a handful of `InstancedMesh`es (hidden-voxel culling included), with baked "aerial perspective" replacing heavy fog for the far forest
-- Day/night is a single `nightF` value that lerps sky, lighting, glow colors, water tint, stars and bloom strength
-- UnrealBloom post-processing is imported dynamically inside `try/catch`, so the page still works if the CDN's postprocessing modules are unavailable
+Built and iterated against [Playwright MCP](https://github.com/microsoft/playwright-mcp):
+screenshots from five camera angles, zero console errors, and programmatic verification
+of both UI toggles. The second pass (waterfall, zen garden, deck, lanterns, background
+world) was re-verified the same way, plus a runtime census of floating petals via
+`window.__dbg.petDat`. Gallery screenshots: `pg_final_hero2.png` (wide), `pg_v3_wf.png`
+(waterfall), `pg_v4_zen.png` (zen garden), `pg_final_pond2.png` (aerial, gallery)
+captured during the sessions.
